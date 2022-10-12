@@ -18,7 +18,7 @@ pad -s 20221012/ -r
 
 ## Font
 
-+ [Cursed Timer ULiL](https://blogfonts.com/cursed-timer-ulil.font)
++ [CursedTimerUlil-Aznm.ttf](https://www.fontspace.com/cursed-timer-ulil-font-f29411): designed by [heaven castro](https://www.fontspace.com/heaven-castro) and licensed as Freeware
 
 ## Help
 
