@@ -76,15 +76,14 @@ def add_date_in_dir_mt(
     in_dir: str, out_dir: str, recursive: bool, overwrite: bool, config: dict
 ):
     files = Path(in_dir).rglob("*") if recursive else Path(in_dir).glob("*")
+    allowed_exts = ["." + str(i).lower() for i in config["img_exts"].split(",")]
 
     with multiprocessing.Manager():
         tasks = []
         pool = multiprocessing.Pool(multiprocessing.cpu_count(), setup)
         for file in files:
 
-            if str(file.suffix).lower()[1:] not in config["img_exts"].split(
-                ","
-            ):  # Skip non-img files
+            if str(file.suffix).lower() not in allowed_exts:  # Skip non-img files
                 continue
 
             in_path = file.absolute()

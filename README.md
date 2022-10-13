@@ -13,7 +13,7 @@ pip3 install git+https://github.com/aben20807/pad.git
 stable version:
 
 ```bash
-pip3 install git+https://github.com/aben20807/pad.git@v1.0.3
+pip3 install git+https://github.com/aben20807/pad.git@v1.0.4
 ```
 
 ## Usage
