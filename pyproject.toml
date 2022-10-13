@@ -2,15 +2,16 @@
 requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
-[tool.setuptools]
-py-modules = []
+[tool.setuptools.packages.find]
+include = ["pad*"]
 
 [project]
 name = "pad"
-version = "1.0.1"
+version = "1.0.2"
 authors = [{name="Po-Hsuan Huang", email="aben20807@gmail.com"}]
 description = "Photo add date"
 readme = "README.md"
+license = {file = "LICENSE"}
 requires-python = ">=3.8"
 classifiers = [
   "Programming Language :: Python :: 3 :: Only",
@@ -25,4 +26,4 @@ dependencies = ["pillow"]
 "Bug Tracker" = "https://github.com/aben20807/pad/issues"
 
 [project.scripts]
-pad = "pad:cli"
+pad = "pad.pad:cli"

@@ -135,7 +135,7 @@ def get_args():
         "--dst",
         help="output dir",
         type=str,
-        default="./pad/",
+        default="./pad_result/",
     )
     parser.add_argument(
         "-f", "--force", help="overwrite existing files", action="store_true"
