@@ -2,7 +2,7 @@
 
 ## Description
 
-Existing tools are not for me, so I make this. The format and style are almost fully controlled by users. The [`DateTimeOriginal`](https://www.awaresystems.be/imaging/tiff/tifftags/privateifd/exif/datetimeoriginal.html), i.e., the date the photo was taken, is added if the exif information exists; otherwise, [`stat.ST_MTIME`](https://docs.python.org/3/library/stat.html#stat.ST_MTIME), the time of last modification, is used for those photo without exif information. Note that ST_MTIME is just close to but not the taken time.
+Existing tools are not for me, so I make this. The format and style are almost fully controlled by users. The [`DateTimeOriginal`](https://www.awaresystems.be/imaging/tiff/tifftags/privateifd/exif/datetimeoriginal.html), i.e., the date the photo was taken, is added if the exif information exists; otherwise, [`stat.ST_MTIME`](https://docs.python.org/3/library/stat.html#stat.ST_MTIME), the time of last modification, is used for those photo without exif information. Note that ST_MTIME is just close to but not the taken time. The image quality are different after processed due to Pillow tool.
 
 ## Install
 
@@ -29,6 +29,10 @@ pad -s 20221012/ -r
 ## Font
 
 + [CursedTimerUlil-Aznm.ttf](https://www.fontspace.com/cursed-timer-ulil-font-f29411): designed by [heaven castro](https://www.fontspace.com/heaven-castro) and licensed as Freeware
+
+## Performance
+
++ 360 photos (1.72 GB) -> 360 photos with dates (1.31 GB): 5.967s
 
 ## Help
 
