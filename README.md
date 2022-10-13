@@ -10,6 +10,12 @@ Existing tools are not for me, so I make this. The format and style are almost f
 pip3 install git+https://github.com/aben20807/pad.git
 ```
 
+stable version:
+
+```bash
+pip3 install git+https://github.com/aben20807/pad.git@v1.0.1
+```
+
 ## Usage
 
 ```bash
