@@ -39,11 +39,12 @@ pad -s 20221012/ -r
 ```bash
 $ pad -h
 usage: pad [-h] -s SRC [-d DST] [-f] [-r] [--text_color TEXT_COLOR] [--text_anchor TEXT_ANCHOR] [--pos_w POS_W] [--pos_h POS_H] [--stroke_width STROKE_WIDTH] [--stroke_color STROKE_COLOR] [--quality QUALITY] [--format FORMAT]
+           [--img_exts IMG_EXTS]
 
 optional arguments:
   -h, --help            show this help message and exit
   -s SRC, --src SRC     input dir (required) (default: None)
-  -d DST, --dst DST     output dir (default: ./pad/)
+  -d DST, --dst DST     output dir (default: ./pad_result/)
   -f, --force           overwrite existing files (default: False)
   -r, --recursive       recursively process (default: False)
   --text_color TEXT_COLOR
@@ -58,6 +59,7 @@ optional arguments:
                         stroke color (default: (242, 97, 0))
   --quality QUALITY     jpg output quality (default: 95)
   --format FORMAT       date format (ref: https://docs.python.org/3/library/datetime.html#strftime-and-strptime-format-codes) (default: `%y %-m %-d)
+  --img_exts IMG_EXTS   support extensions for processed photos (case insensitive) (default: jpg,jpeg,png,tiff)
 ```
 
 ## License
