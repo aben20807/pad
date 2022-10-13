@@ -14,7 +14,7 @@ def add_date_to_img(inpath: str, outpath: str, config: dict):
 
             # get date from exif or st_mtime
             exif = img._getexif()
-            if exif is None:
+            if exif is None or 36867 not in exif.keys():
                 print(f"'{inpath}' does not have exif info, use modified date instead")
                 date = Path(inpath).stat().st_mtime
                 date = datetime.datetime.fromtimestamp(date)
@@ -48,7 +48,7 @@ def add_date_to_img(inpath: str, outpath: str, config: dict):
 
             # create parent directors
             if not Path(outpath).absolute().parent.exists():
-                Path(outpath).absolute().parent.mkdir(parents=True)
+                Path(outpath).absolute().parent.mkdir(parents=True, exist_ok=True)
 
             # save processed photo
             if exif is None:
@@ -62,7 +62,7 @@ def add_date_to_img(inpath: str, outpath: str, config: dict):
                 )
 
     except Exception as e:
-        print(e)
+        print(e, locals())
         import traceback, sys
 
         traceback.print_exc(file=sys.stdout)
@@ -81,6 +81,12 @@ def add_date_in_dir_mt(
         tasks = []
         pool = multiprocessing.Pool(multiprocessing.cpu_count(), setup)
         for file in files:
+
+            if str(file.suffix).lower()[1:] not in config["img_exts"].split(
+                ","
+            ):  # Skip non-img files
+                continue
+
             in_path = file.absolute()
             out_path = str(in_path).replace(
                 str(Path(in_dir).absolute()), str(Path(out_dir).absolute())
@@ -94,9 +100,6 @@ def add_date_in_dir_mt(
                 print(
                     f"Out '{out_path}' equals to In '{in_path}'. Please specify other path"
                 )
-                continue
-
-            if Path(in_path).is_dir():  # Skip dir
                 continue
 
             tasks.append(pool.apply_async(add_date_to_img, (in_path, out_path, config)))
@@ -171,6 +174,12 @@ def get_args():
         type=str,
         default="`%y %-m %-d",
     )
+    parser.add_argument(
+        "--img_exts",
+        help="support extensions for processed photos (case insensitive)",
+        type=str,
+        default="jpg,jpeg,png,tiff",
+    )
     return parser.parse_args()
 
 
@@ -188,6 +197,7 @@ def cli():
         "quality": args.quality,
         "format": args.format,
         "font_path": Path("~/.cache/pad/CursedTimerUlil-Aznm.ttf").expanduser(),
+        "img_exts": args.img_exts,
     }
 
     if not config["font_path"].exists():
