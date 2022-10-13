@@ -4,6 +4,7 @@ from pathlib import Path
 import datetime
 import multiprocessing
 import signal
+from urllib.request import urlretrieve
 
 
 def add_date_to_img(inpath: str, outpath: str, config: dict):
@@ -29,7 +30,7 @@ def add_date_to_img(inpath: str, outpath: str, config: dict):
             text = date.strftime(config["format"])
 
             # get a font
-            fnt = ImageFont.truetype("CursedTimerULiL.ttf", width // 36)
+            fnt = ImageFont.truetype(str(config["font_path"]), width // 36)
 
             # get a drawing context
             draw = ImageDraw.Draw(img)
@@ -89,7 +90,13 @@ def add_date_in_dir_mt(
                 print(f"'{out_path}' exists and overwrite is set to False.")
                 continue
 
-            if Path(in_path).is_dir():
+            if str(in_path) == str(out_path):
+                print(
+                    f"Out '{out_path}' equals to In '{in_path}'. Please specify other path"
+                )
+                continue
+
+            if Path(in_path).is_dir():  # Skip dir
                 continue
 
             tasks.append(pool.apply_async(add_date_to_img, (in_path, out_path, config)))
@@ -170,6 +177,7 @@ def get_args():
 def cli():
     args = get_args()
     print(f"args: {args}")
+
     config = {
         "text_color": args.text_color,
         "text_anchor": args.text_anchor,
@@ -179,7 +187,16 @@ def cli():
         "stroke_color": args.stroke_color,
         "quality": args.quality,
         "format": args.format,
+        "font_path": Path("~/.cache/pad/CursedTimerUlil-Aznm.ttf").expanduser(),
     }
+
+    if not config["font_path"].exists():
+        print(f"download font file from online to {config['font_path']}")
+        config["font_path"].parent.mkdir(parents=True, exist_ok=True)
+        urlretrieve(
+            "https://github.com/aben20807/pad/blob/master/font/CursedTimerUlil-Aznm.ttf?raw=true",
+            config["font_path"],
+        )
 
     if Path(args.src).exists() and Path(args.src).is_file():
         add_date_to_img(args.src, args.dst, config)

@@ -1,5 +1,9 @@
 # pad: photo add date
 
+## Description
+
+Existing tools are not for me, so I make this. The format and style are almost fully controlled by users. The [`DateTimeOriginal`](https://www.awaresystems.be/imaging/tiff/tifftags/privateifd/exif/datetimeoriginal.html), i.e., the date the photo was taken, is added if the exif information exists; otherwise, [`stat.ST_MTIME`](https://docs.python.org/3/library/stat.html#stat.ST_MTIME), the time of last modification, is used for those photo without exif information. Note that ST_MTIME is just close to but not the taken time.
+
 ## Install
 
 ```bash
