@@ -5,6 +5,7 @@ import datetime
 import multiprocessing
 import signal
 from urllib.request import urlretrieve
+import sys
 
 
 def add_date_to_img(inpath: str, outpath: str, config: dict):
@@ -30,7 +31,8 @@ def add_date_to_img(inpath: str, outpath: str, config: dict):
             text = date.strftime(config["format"])
 
             # get a font
-            fnt = ImageFont.truetype(str(config["font_path"]), width // 36)
+            font_size = (width if width > height else height) // 36
+            fnt = ImageFont.truetype(str(config["font_path"]), font_size)
 
             # get a drawing context
             draw = ImageDraw.Draw(img)
@@ -208,6 +210,12 @@ def cli():
         )
 
     if Path(args.src).exists() and Path(args.src).is_file():
+        if not Path(args.dst).is_file():
+            print(f"Error: Because 'args.src' is a file, 'args.dst' should be also a file")
+            sys.exit(1)
+        if not args.force and Path(args.dst).exists():
+            print(f"'{args.dst}' exists and 'args.force' (overwrite) is set to False.")
+            sys.exit(1)
         add_date_to_img(args.src, args.dst, config)
     else:
         add_date_in_dir_mt(args.src, args.dst, args.recursive, args.force, config)

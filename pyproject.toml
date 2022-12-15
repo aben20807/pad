@@ -7,7 +7,7 @@ include = ["pad*"]
 
 [project]
 name = "pad"
-version = "1.0.4"
+version = "1.0.5"
 authors = [{name="Po-Hsuan Huang", email="aben20807@gmail.com"}]
 description = "Photo add date"
 readme = "README.md"

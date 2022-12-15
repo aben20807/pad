@@ -13,7 +13,7 @@ pip3 install git+https://github.com/aben20807/pad.git
 stable version:
 
 ```bash
-pip3 install git+https://github.com/aben20807/pad.git@v1.0.4
+pip3 install git+https://github.com/aben20807/pad.git@v1.0.5
 ```
 
 ## Usage
@@ -24,7 +24,7 @@ pad -s 20221012/ -r
 
 ## Screenshot
 
-![DSC_0005](https://user-images.githubusercontent.com/14831545/195342599-26c714d1-37f2-4ec6-9f0d-f90b814ff67a.JPG)
+![DSC_0005](https://user-images.githubusercontent.com/14831545/207787756-1e98292a-2e5a-4fdb-9db4-1dbe9aad7227.JPG)
 
 ## Font
 
@@ -65,4 +65,3 @@ optional arguments:
 ## License
 
 MIT
-
