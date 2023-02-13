@@ -13,7 +13,7 @@ pip3 install git+https://github.com/aben20807/pad.git
 stable version:
 
 ```bash
-pip3 install git+https://github.com/aben20807/pad.git@v1.0.5
+pip3 install git+https://github.com/aben20807/pad.git@v1.0.6
 ```
 
 ## Usage
@@ -38,8 +38,8 @@ pad -s 20221012/ -r
 
 ```bash
 $ pad -h
-usage: pad [-h] -s SRC [-d DST] [-f] [-r] [--text_color TEXT_COLOR] [--text_anchor TEXT_ANCHOR] [--pos_w POS_W] [--pos_h POS_H] [--stroke_width STROKE_WIDTH] [--stroke_color STROKE_COLOR] [--quality QUALITY] [--format FORMAT]
-           [--img_exts IMG_EXTS]
+usage: pad.py [-h] -s SRC [-d DST] [-f] [-r] [--text_size TEXT_SIZE] [--text_color TEXT_COLOR] [--text_anchor TEXT_ANCHOR] [--pos_w POS_W] [--pos_h POS_H] [--fine_tune_aspect_ratio FINE_TUNE_ASPECT_RATIO]
+              [--stroke_width STROKE_WIDTH] [--stroke_color STROKE_COLOR] [--quality QUALITY] [--format FORMAT] [--img_exts IMG_EXTS]
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -47,12 +47,16 @@ optional arguments:
   -d DST, --dst DST     output dir (default: ./pad_result/)
   -f, --force           overwrite existing files (default: False)
   -r, --recursive       recursively process (default: False)
+  --text_size TEXT_SIZE
+                        text size ('auto' or 'N' px) (default: auto)
   --text_color TEXT_COLOR
                         text color (default: (255, 149, 21))
   --text_anchor TEXT_ANCHOR
                         text anchor (ref: https://pillow.readthedocs.io/en/stable/handbook/text-anchors.html#text-anchors) (default: rb)
   --pos_w POS_W         position for width (0~1) (default: 0.94)
   --pos_h POS_H         position for height (0~1) (default: 0.94)
+  --fine_tune_aspect_ratio FINE_TUNE_ASPECT_RATIO
+                        expect aspect ratio for fine tune pos for cropping ('none' or 'M/N' (M<=N)) (default: 2/3)
   --stroke_width STROKE_WIDTH
                         stroke width for text (default: 1)
   --stroke_color STROKE_COLOR
