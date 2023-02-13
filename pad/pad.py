@@ -31,8 +31,10 @@ def add_date_to_img(inpath: str, outpath: str, config: dict):
             text = date.strftime(config["format"])
 
             # get a font
-            font_size = (width if width > height else height) // 36
-            fnt = ImageFont.truetype(str(config["font_path"]), font_size)
+            size = config["text_size"]
+            if size == "auto":
+                size = max(width, height) // 36
+            fnt = ImageFont.truetype(str(config["font_path"]), int(size))
 
             # get a drawing context
             draw = ImageDraw.Draw(img)
@@ -148,6 +150,9 @@ def get_args():
         "-r", "--recursive", help="recursively process", action="store_true"
     )
     parser.add_argument(
+        "--text_size", help="text size ('auto' or 'N' px)", type=str, default="auto"
+    )
+    parser.add_argument(
         "--text_color", help="text color", type=tuple_type, default=(255, 149, 21)
     )
     parser.add_argument(
@@ -189,6 +194,7 @@ def cli():
     print(f"args: {args}")
 
     config = {
+        "text_size": args.text_size,
         "text_color": args.text_color,
         "text_anchor": args.text_anchor,
         "pos_h": args.pos_h,
@@ -211,7 +217,9 @@ def cli():
 
     if Path(args.src).exists() and Path(args.src).is_file():
         if not Path(args.dst).is_file():
-            print(f"Error: Because 'args.src' is a file, 'args.dst' should be also a file")
+            print(
+                f"Error: Because 'args.src' is a file, 'args.dst' should be also a file"
+            )
             sys.exit(1)
         if not args.force and Path(args.dst).exists():
             print(f"'{args.dst}' exists and 'args.force' (overwrite) is set to False.")
