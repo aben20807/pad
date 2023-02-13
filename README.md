@@ -48,7 +48,7 @@ optional arguments:
   -f, --force           overwrite existing files (default: False)
   -r, --recursive       recursively process (default: False)
   --text_size TEXT_SIZE
-                        text size ('auto' or 'N' px) (default: auto)
+                        text size ('N' mm) (default: 4.24)
   --text_color TEXT_COLOR
                         text color (default: (255, 149, 21))
   --text_anchor TEXT_ANCHOR
