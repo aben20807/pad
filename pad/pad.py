@@ -42,12 +42,12 @@ def add_date_to_img(inpath: str, outpath: str, config: dict):
                 if width > height:
                     if width / height > 1 / aspect_ratio + 0.01:
                         offset_w = (width - (1 / aspect_ratio * height)) / 2
-                    elif width / height < 1 / aspect_ratio - 0.02:
+                    elif width / height < 1 / aspect_ratio - 0.01:
                         offset_h = (height - (aspect_ratio * width)) / 2
                 else:  # width <= height
                     if width / height > aspect_ratio + 0.01:
                         offset_w = (width - (aspect_ratio * height)) / 2
-                    elif width / height < aspect_ratio - 0.02:
+                    elif width / height < aspect_ratio - 0.01:
                         offset_h = (height - (1 / aspect_ratio * width)) / 2
 
                 if offset_h > 0 or offset_w > 0:
