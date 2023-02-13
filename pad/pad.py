@@ -1,17 +1,18 @@
 import argparse
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont, ImageOps
 from pathlib import Path
 import datetime
 import multiprocessing
 import signal
 from urllib.request import urlretrieve
 import sys
+from fractions import Fraction
 
 
 def add_date_to_img(inpath: str, outpath: str, config: dict):
     try:
         with Image.open(inpath) as img:
-            width, height = img.size
+            # img = ImageOps.exif_transpose(img)
 
             # get date from exif or st_mtime
             exif = img._getexif()
@@ -26,9 +27,31 @@ def add_date_to_img(inpath: str, outpath: str, config: dict):
                 date = datetime.datetime.fromisoformat(
                     date.replace(":", "-", 2) + ".000"
                 )
+                # rotate the image based on the exif info
+                img = ImageOps.exif_transpose(img)
 
             # get formated date
             text = date.strftime(config["format"])
+
+            # fine tune for photo crop in different aspect ratio
+            width, height = img.size
+            offset_w, offset_h = 0, 0
+            if config["fine_tune_aspect_ratio"] != "none":
+                aspect_ratio = float(Fraction(config["fine_tune_aspect_ratio"]))
+
+                if width > height:
+                    if width / height > 1 / aspect_ratio + 0.01:
+                        offset_w = (width - (1 / aspect_ratio * height)) / 2
+                    elif width / height < 1 / aspect_ratio - 0.02:
+                        offset_h = (height - (aspect_ratio * width)) / 2
+                else:  # width <= height
+                    if width / height > aspect_ratio + 0.01:
+                        offset_w = (width - (aspect_ratio * height)) / 2
+                    elif width / height < aspect_ratio - 0.02:
+                        offset_h = (height - (1 / aspect_ratio * width)) / 2
+
+                if offset_h > 0 or offset_w > 0:
+                    print(f"'{inpath}' fine tune for cropping into aspect ratio")
 
             # get a font
             size = config["text_size"]
@@ -41,7 +64,10 @@ def add_date_to_img(inpath: str, outpath: str, config: dict):
 
             # draw text
             draw.text(
-                (width * config["pos_w"], height * config["pos_h"]),
+                (
+                    (width - offset_w) * config["pos_w"],
+                    (height - offset_h) * config["pos_h"],
+                ),
                 text,
                 anchor=config["text_anchor"],
                 font=fnt,
@@ -168,6 +194,12 @@ def get_args():
         "--pos_h", help="position for height (0~1)", type=float, default=0.94
     )
     parser.add_argument(
+        "--fine_tune_aspect_ratio",
+        help="expect aspect ratio for fine tune pos for cropping ('none' or 'M/N' (M<=N))",
+        type=str,
+        default="2/3",
+    )
+    parser.add_argument(
         "--stroke_width", help="stroke width for text", type=int, default=1
     )
     parser.add_argument(
@@ -199,6 +231,7 @@ def cli():
         "text_anchor": args.text_anchor,
         "pos_h": args.pos_h,
         "pos_w": args.pos_w,
+        "fine_tune_aspect_ratio": args.fine_tune_aspect_ratio,
         "stroke_width": args.stroke_width,
         "stroke_color": args.stroke_color,
         "quality": args.quality,
