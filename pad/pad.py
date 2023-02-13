@@ -54,9 +54,7 @@ def add_date_to_img(inpath: str, outpath: str, config: dict):
                     print(f"'{inpath}' fine tune for cropping into aspect ratio")
 
             # get a font
-            size = config["text_size"]
-            if size == "auto":
-                size = max(width, height) // 36
+            size = float(config["text_size"]) * max(width, height) // 152
             fnt = ImageFont.truetype(str(config["font_path"]), int(size))
 
             # get a drawing context
@@ -176,7 +174,7 @@ def get_args():
         "-r", "--recursive", help="recursively process", action="store_true"
     )
     parser.add_argument(
-        "--text_size", help="text size ('auto' or 'N' px)", type=str, default="auto"
+        "--text_size", help="text size ('auto' or 'N' px)", type=float, default=4.24
     )
     parser.add_argument(
         "--text_color", help="text color", type=tuple_type, default=(255, 149, 21)
