@@ -1,6 +1,7 @@
 import argparse
 import datetime
 import multiprocessing
+import platform
 import signal
 import sys
 from fractions import Fraction
@@ -239,7 +240,7 @@ def get_args():
         "--format",
         help="date format (ref: https://docs.python.org/3/library/datetime.html#strftime-and-strptime-format-codes)",
         type=str,
-        default="`%y %-m %-d",
+        default="`%y %#m %#d" if platform.system() == "Windows" else "`%y %-m %-d",
     )
     parser.add_argument(
         "--img_exts",
