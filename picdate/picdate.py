@@ -1,12 +1,13 @@
 import argparse
-from PIL import Image, ImageDraw, ImageFont, ImageOps
-from pathlib import Path
 import datetime
 import multiprocessing
 import signal
-from urllib.request import urlretrieve
 import sys
 from fractions import Fraction
+from pathlib import Path
+from urllib.request import urlretrieve
+
+from PIL import Image, ImageDraw, ImageFont, ImageOps
 
 
 def add_date_to_img(inpath: str, outpath: str, config: dict):
@@ -65,8 +66,8 @@ def add_date_to_img(inpath: str, outpath: str, config: dict):
             # draw text
             draw.text(
                 (
-                    (width - offset_w) * config["pos_w"],
-                    (height - offset_h) * config["pos_h"],
+                    (width - offset_w) * config["pos_x"],
+                    (height - offset_h) * config["pos_y"],
                 ),
                 text,
                 anchor=config["text_anchor"],
@@ -93,7 +94,8 @@ def add_date_to_img(inpath: str, outpath: str, config: dict):
 
     except Exception as e:
         print(e, locals())
-        import traceback, sys
+        import sys
+        import traceback
 
         traceback.print_exc(file=sys.stdout)
 
@@ -157,17 +159,27 @@ def tuple_type(strings):
 def get_args():
     """Init argparser and return the args from cli."""
     parser = argparse.ArgumentParser(
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter
+        prog="picdate",
+        description="PicDate: Quick and Simple Date Marking for Photos",
+        formatter_class=lambda prog: argparse.ArgumentDefaultsHelpFormatter(
+            prog, width=100
+        ),
     )
     parser.add_argument(
-        "-s", "--src", help="input dir (required)", type=str, required=True
+        "-s",
+        "--src",
+        metavar="DIR",
+        help="input dir (required)",
+        type=str,
+        required=True,
     )
     parser.add_argument(
         "-d",
         "--dst",
+        metavar="DIR",
         help="output dir",
         type=str,
-        default="./pad_result/",
+        default="./picdate_result/",
     )
     parser.add_argument(
         "-f", "--force", help="overwrite existing files", action="store_true"
@@ -176,10 +188,14 @@ def get_args():
         "-r", "--recursive", help="recursively process", action="store_true"
     )
     parser.add_argument(
-        "--text_size", help="text size ('N' mm)", type=float, default=4.24
+        "--text_size", metavar="N", help="text size ('N' mm)", type=float, default=4.24
     )
     parser.add_argument(
-        "--text_color", help="text color", type=tuple_type, default=(255, 149, 21)
+        "--text_color",
+        metavar="COLOR",
+        help="text color",
+        type=tuple_type,
+        default=(255, 149, 21),
     )
     parser.add_argument(
         "--text_anchor",
@@ -188,13 +204,22 @@ def get_args():
         default="rb",
     )
     parser.add_argument(
-        "--pos_w", help="position for width (0~1)", type=float, default=0.94
+        "--pos_x",
+        metavar="X",
+        help="position for x-axis from 0 (left) to 1 (right)",
+        type=float,
+        default=0.94,
     )
     parser.add_argument(
-        "--pos_h", help="position for height (0~1)", type=float, default=0.94
+        "--pos_y",
+        metavar="Y",
+        help="position for y-axis from 0 (top) to 1 (bottom)",
+        type=float,
+        default=0.94,
     )
     parser.add_argument(
         "--fine_tune_aspect_ratio",
+        metavar="RATIO",
         help="expect aspect ratio for fine tune pos for cropping ('none' or 'M/N' (M<=N))",
         type=str,
         default="2/3",
@@ -203,7 +228,11 @@ def get_args():
         "--stroke_width", help="stroke width for text", type=int, default=1
     )
     parser.add_argument(
-        "--stroke_color", help="stroke color", type=tuple_type, default=(242, 97, 0)
+        "--stroke_color",
+        metavar="COLOR",
+        help="stroke color",
+        type=tuple_type,
+        default=(242, 97, 0),
     )
     parser.add_argument("--quality", help="jpg output quality", type=int, default=95)
     parser.add_argument(
@@ -229,14 +258,14 @@ def cli():
         "text_size": args.text_size,
         "text_color": args.text_color,
         "text_anchor": args.text_anchor,
-        "pos_h": args.pos_h,
-        "pos_w": args.pos_w,
+        "pos_y": args.pos_y,
+        "pos_x": args.pos_x,
         "fine_tune_aspect_ratio": args.fine_tune_aspect_ratio,
         "stroke_width": args.stroke_width,
         "stroke_color": args.stroke_color,
         "quality": args.quality,
         "format": args.format,
-        "font_path": Path("~/.cache/pad/CursedTimerUlil-Aznm.ttf").expanduser(),
+        "font_path": Path("~/.cache/picdate/CursedTimerUlil-Aznm.ttf").expanduser(),
         "img_exts": args.img_exts,
     }
 
@@ -244,7 +273,7 @@ def cli():
         print(f"download font file from online to {config['font_path']}")
         config["font_path"].parent.mkdir(parents=True, exist_ok=True)
         urlretrieve(
-            "https://github.com/aben20807/pad/blob/master/font/CursedTimerUlil-Aznm.ttf?raw=true",
+            "https://github.com/aben20807/picdate/blob/master/font/CursedTimerUlil-Aznm.ttf?raw=true",
             config["font_path"],
         )
 

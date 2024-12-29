@@ -1,4 +1,4 @@
-# pad: photo add date
+# PicDate: Quick and Simple Date Marking for Photos
 
 ## Description
 
@@ -7,19 +7,19 @@ Existing tools are not for me, so I make this. The format and style are almost f
 ## Install
 
 ```bash
-pip3 install git+https://github.com/aben20807/pad.git
+pip3 install git+https://github.com/aben20807/picdate.git
 ```
 
 stable version:
 
 ```bash
-pip3 install git+https://github.com/aben20807/pad.git@v1.0.6
+pip3 install git+https://github.com/aben20807/picdate.git@v2.0.0
 ```
 
 ## Usage
 
 ```bash
-pad -s 20221012/ -r
+picdate -s 20221012/ -r
 ```
 
 ## Screenshot
@@ -37,33 +37,38 @@ pad -s 20221012/ -r
 ## Help
 
 ```bash
-$ pad -h
-usage: pad.py [-h] -s SRC [-d DST] [-f] [-r] [--text_size TEXT_SIZE] [--text_color TEXT_COLOR] [--text_anchor TEXT_ANCHOR] [--pos_w POS_W] [--pos_h POS_H] [--fine_tune_aspect_ratio FINE_TUNE_ASPECT_RATIO]
-              [--stroke_width STROKE_WIDTH] [--stroke_color STROKE_COLOR] [--quality QUALITY] [--format FORMAT] [--img_exts IMG_EXTS]
+$ picdate -h
+usage: picdate [-h] -s DIR [-d DIR] [-f] [-r] [--text_size N] [--text_color COLOR]
+               [--text_anchor TEXT_ANCHOR] [--pos_x X] [--pos_y Y] [--fine_tune_aspect_ratio RATIO]
+               [--stroke_width STROKE_WIDTH] [--stroke_color COLOR] [--quality QUALITY]
+               [--format FORMAT] [--img_exts IMG_EXTS]
 
-optional arguments:
+PicDate: Quick and Simple Date Marking for Photos
+
+options:
   -h, --help            show this help message and exit
-  -s SRC, --src SRC     input dir (required) (default: None)
-  -d DST, --dst DST     output dir (default: ./pad_result/)
+  -s DIR, --src DIR     input dir (required) (default: None)
+  -d DIR, --dst DIR     output dir (default: ./picdate_result/)
   -f, --force           overwrite existing files (default: False)
   -r, --recursive       recursively process (default: False)
-  --text_size TEXT_SIZE
-                        text size ('N' mm) (default: 4.24)
-  --text_color TEXT_COLOR
-                        text color (default: (255, 149, 21))
+  --text_size N         text size ('N' mm) (default: 4.24)
+  --text_color COLOR    text color (default: (255, 149, 21))
   --text_anchor TEXT_ANCHOR
-                        text anchor (ref: https://pillow.readthedocs.io/en/stable/handbook/text-anchors.html#text-anchors) (default: rb)
-  --pos_w POS_W         position for width (0~1) (default: 0.94)
-  --pos_h POS_H         position for height (0~1) (default: 0.94)
-  --fine_tune_aspect_ratio FINE_TUNE_ASPECT_RATIO
-                        expect aspect ratio for fine tune pos for cropping ('none' or 'M/N' (M<=N)) (default: 2/3)
+                        text anchor (ref: https://pillow.readthedocs.io/en/stable/handbook/text-
+                        anchors.html#text-anchors) (default: rb)
+  --pos_x X             position for x-axis from 0 (left) to 1 (right) (default: 0.94)
+  --pos_y Y             position for y-axis from 0 (top) to 1 (bottom) (default: 0.94)
+  --fine_tune_aspect_ratio RATIO
+                        expect aspect ratio for fine tune pos for cropping ('none' or 'M/N' (M<=N))
+                        (default: 2/3)
   --stroke_width STROKE_WIDTH
                         stroke width for text (default: 1)
-  --stroke_color STROKE_COLOR
-                        stroke color (default: (242, 97, 0))
+  --stroke_color COLOR  stroke color (default: (242, 97, 0))
   --quality QUALITY     jpg output quality (default: 95)
-  --format FORMAT       date format (ref: https://docs.python.org/3/library/datetime.html#strftime-and-strptime-format-codes) (default: `%y %-m %-d)
-  --img_exts IMG_EXTS   support extensions for processed photos (case insensitive) (default: jpg,jpeg,png,tiff)
+  --format FORMAT       date format (ref: https://docs.python.org/3/library/datetime.html#strftime-
+                        and-strptime-format-codes) (default: `%y %-m %-d)
+  --img_exts IMG_EXTS   support extensions for processed photos (case insensitive) (default:
+                        jpg,jpeg,png,tiff)
 ```
 
 ## License

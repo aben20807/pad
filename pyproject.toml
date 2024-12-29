@@ -3,13 +3,13 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
-include = ["pad*"]
+include = ["picdate*"]
 
 [project]
-name = "pad"
-version = "1.0.6"
+name = "picdate"
+version = "2.0.0"
 authors = [{name="Po-Hsuan Huang", email="aben20807@gmail.com"}]
-description = "Photo add date"
+description = "PicDate: Quick and Simple Date Marking for Photos"
 readme = "README.md"
 license = {file = "LICENSE"}
 requires-python = ">=3.8"
@@ -22,8 +22,8 @@ classifiers = [
 dependencies = ["pillow"]
 
 [project.urls]
-"Homepage" = "https://github.com/aben20807/pad"
-"Bug Tracker" = "https://github.com/aben20807/pad/issues"
+"Homepage" = "https://github.com/aben20807/picdate"
+"Bug Tracker" = "https://github.com/aben20807/picdate/issues"
 
 [project.scripts]
-pad = "pad.pad:cli"
+picdate = "picdate.picdate:cli"
