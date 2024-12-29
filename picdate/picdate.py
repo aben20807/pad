@@ -106,14 +106,14 @@ def setup():
 
 
 def add_date_in_dir_mt(
-    in_dir: str, out_dir: str, recursive: bool, overwrite: bool, config: dict
+    in_dir: str, out_dir: str, recursive: bool, overwrite: bool, config: dict, jobs: int
 ):
     files = Path(in_dir).rglob("*") if recursive else Path(in_dir).glob("*")
     allowed_exts = ["." + str(i).lower() for i in config["img_exts"].split(",")]
 
     with multiprocessing.Manager():
         tasks = []
-        pool = multiprocessing.Pool(multiprocessing.cpu_count(), setup)
+        pool = multiprocessing.Pool(jobs, setup)
         for file in files:
 
             if str(file.suffix).lower() not in allowed_exts:  # Skip non-img files
@@ -189,6 +189,14 @@ def get_args():
         "-r", "--recursive", help="recursively process", action="store_true"
     )
     parser.add_argument(
+        "-j",
+        "--jobs",
+        metavar="N",
+        help="parallel jobs to process",
+        type=int,
+        default=multiprocessing.cpu_count(),
+    )
+    parser.add_argument(
         "--text_size", metavar="N", help="text size ('N' mm)", type=float, default=4.24
     )
     parser.add_argument(
@@ -226,7 +234,7 @@ def get_args():
         default="2/3",
     )
     parser.add_argument(
-        "--stroke_width", help="stroke width for text", type=int, default=1
+        "--stroke_width", metavar="N", help="stroke width for text", type=int, default=1
     )
     parser.add_argument(
         "--stroke_color",
@@ -235,7 +243,9 @@ def get_args():
         type=tuple_type,
         default=(242, 97, 0),
     )
-    parser.add_argument("--quality", help="jpg output quality", type=int, default=95)
+    parser.add_argument(
+        "--quality", metavar="N", help="jpg output quality", type=int, default=95
+    )
     parser.add_argument(
         "--format",
         help="date format (ref: https://docs.python.org/3/library/datetime.html#strftime-and-strptime-format-codes)",
@@ -289,7 +299,9 @@ def cli():
             sys.exit(1)
         add_date_to_img(args.src, args.dst, config)
     else:
-        add_date_in_dir_mt(args.src, args.dst, args.recursive, args.force, config)
+        add_date_in_dir_mt(
+            args.src, args.dst, args.recursive, args.force, config, args.jobs
+        )
 
 
 if __name__ == "__main__":
