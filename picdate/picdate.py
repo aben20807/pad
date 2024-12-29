@@ -163,7 +163,7 @@ def get_args():
         prog="picdate",
         description="PicDate: Quick and Simple Date Marking for Photos",
         formatter_class=lambda prog: argparse.ArgumentDefaultsHelpFormatter(
-            prog, width=100
+            prog, width=80
         ),
     )
     parser.add_argument(

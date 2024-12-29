@@ -7,7 +7,7 @@ include = ["picdate*"]
 
 [project]
 name = "picdate"
-version = "2.0.0"
+version = "2.0.1"
 authors = [{name="Po-Hsuan Huang", email="aben20807@gmail.com"}]
 description = "PicDate: Quick and Simple Date Marking for Photos"
 readme = "README.md"
