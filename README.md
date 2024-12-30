@@ -1,6 +1,6 @@
 # PicDate: Quick and Simple Date Marking for Photos
 
-[![PyPI](https://img.shields.io/pypi/v/picdate?color=blue&style=flat&logo=pypi)](https://pypi.org/project/picdate/) [![GitHub license](https://img.shields.io/github/license/aben20807/picdate?color=blue)](LICENSE) [![Coding style](https://img.shields.io/badge/code%20style-black-1183C3.svg)](https://github.com/psf/black)
+[![PyPI](https://img.shields.io/pypi/v/picdate?color=blue&style=flat&logo=pypi)](https://pypi.org/project/picdate/) [![PyPI Downloads](https://static.pepy.tech/badge/picdate)](https://pepy.tech/projects/picdate) [![GitHub license](https://img.shields.io/github/license/aben20807/picdate?color=blue)](LICENSE) [![Coding style](https://img.shields.io/badge/code%20style-black-1183C3.svg)](https://github.com/psf/black)
 
 ## Description
 
@@ -91,6 +91,10 @@ options:
   --img_exts IMG_EXTS   support extensions for processed photos (case
                         insensitive) (default: jpg,jpeg,png,tiff)
 ```
+
+## Known issues
+
++ `strftime` exhibits different behavior across platforms, leading to invalid format strings. The current implementation detects the platform and applies a different default format: windows (`` `%y %#m %#d ``) and others (`` `%y %-m %-d ``).
 
 ## License
 
